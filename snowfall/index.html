@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
+
+	<!-- ToDo
+	************************************************
+		- Add horizontal grid lines
+		- Fix tooltip from going off screen
+		- Update data
+		- Implement about menu item
+	************************************************
+	-->
 
     <!-- Le styles -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
@@ -29,7 +37,9 @@
     <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="assets/ico/favicon.png">
 	
+	<!--
 	<script src="spin.js"></script>
+	-->
 	
 	<!-- D3 Stuff -->
 	<script src="http://d3js.org/d3.v3.min.js"></script>
@@ -37,29 +47,38 @@
 		body {
 		  font: 10px sans-serif;
 		}
-
 		.axis path,
 		.axis line {
 		  fill: none;
 		  stroke: #000;
 		  shape-rendering: crispEdges;
 		}
-
 		.bar {
 		  fill: steelblue;
 		}
-
 		.x.axis path {
 		  display: none;
 		}
-
 		label {
 		  position: absolute;
 		  top: 10px;
 		  right: 10px;
 		}
+		div.tooltip {   
+		  position: absolute;           
+		  text-align: center;           
+		  width: 100px;                  
+		  height: 40px;                 
+		  padding: 2px;             
+		  font: 12px sans-serif;        
+		  background: black;   
+		  border: 0px;      
+		  border-radius: 8px;           
+		  pointer-events: none;
+		  z-index:1000; 
+		  color: white;        
+		}
 	</style>
-
   </head>
 
   <body>
@@ -72,12 +91,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="brand" href="#">Scott Leslie</a>
+          <a class="brand" href="#">Snowfall Visualizer</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li><a href="scott-leslie.com">Home</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#contact">Contact</a></li>
+              <li><a href="http://scott-leslie.com">Home</a></li>
+              <li><a href="#myModal" data-toggle="modal">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -86,6 +104,22 @@
 
     <div class="container">
       <h1>Yearly Snowfall Data</h1>
+      
+      <!-- Modal -->
+		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">Modal header</h3>
+		  </div>
+		  <div class="modal-body">
+			<p>One fine body…</p>
+		  </div>
+		  <div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+			<button class="btn btn-primary">Save changes</button>
+		  </div>
+		</div>
+      
       <p>This graph shows snowfall totals for the last 134 years.<br> Click to sort.</p>
 	  <label><input type="checkbox"> Sort values</label>
     </div>
@@ -133,7 +167,7 @@
 		  .append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-		var tooltip = d3.select("#svg").append("div")   
+		var tooltip = d3.select("body").append("div")   
 			.attr("class", "tooltip")               
 			.style("opacity", 0);
 
@@ -180,18 +214,20 @@
 			  .attr("y", function(d) { return height; })
 			  .attr("width", 5)
 			.transition().delay(function(d,i){ return i * 15 })
-			  .duration(10)
+			  .duration(5)
 			  .attr("y", function(d) { return y(d.Season); })
 			  .attr("height", function(d) { return height - y(d.Season); });
 			
 			rectangles
 			  .on("mouseover", function(d) {      
-    			tooltip.transition().duration(200).style("opacity", .9); 
-				//    tooltip.html(d)  
-      			//tooltip.html("test \n test")
-      			//	.style("left", (parseInt(d3.select(this).attr("x")) + document.getElementById("svg").offsetLeft) + "px")     
-      			//	.style("top", (parseInt(d3.select(this).attr("y")) + document.getElementById("svg").offsetTop) + "px");
-      			console.log(parseInt(d3.select(this).attr("x")));
+    			tooltip.transition().duration(200).style("opacity", .9);
+				tooltip.html("Year: " + d.WY + "<br>Total Snowfall: " + d.Season + "inches")  
+//      			tooltip.html("test \n test")
+      				.style("left", (parseInt(d3.select(this).attr("x")) + document.getElementById("content").offsetLeft) + "px")     
+      				//.style("top", (parseInt(d3.select(this).attr("y")) + document.getElementById("content").offsetTop) + "px");
+      				.style("top", (parseInt(d3.select(this).attr("y")) + 275) + "px");
+      			//console.log(parseInt(d3.select(this).attr("x")));
+      			console.log("test");
       			    
   			  })                  
   			.on("mouseout", function(d) {       
@@ -216,8 +252,8 @@
 				var x0 = x.domain(data.sort( function(a, b) { return d3.ascending(a.WY, b.WY); })
 							.map(function(d) { return d.WY; }))
 							.copy();
-				var transition = svg.transition().duration(200),
-					delay = function(d, i) { return i * 50; };
+				var transition = svg.transition().duration(100),
+					delay = function(d, i) { return i * 25; };
 
 				transition.selectAll(".bar")
 					.delay(delay)
@@ -248,8 +284,8 @@
 				var x0 = x.domain(data.sort( function(a, b) { return b.Season - a.Season; })
 							.map(function(d) { return d.WY; }))
 							.copy();
-				var transition = svg.transition().duration(200),
-					delay = function(d, i) { return i * 50; };
+				var transition = svg.transition().duration(100),
+					delay = function(d, i) { return i * 25; };
 
 				transition.selectAll(".bar")
 					.delay(delay)
@@ -275,8 +311,8 @@
 					.map(function(d) { return d.WY; }))
 					.copy();
 
-				var transition = svg.transition().duration(200),
-					delay = function(d, i) { return i * 50; };
+				var transition = svg.transition().duration(100),
+					delay = function(d, i) { return i * 25; };
 
 				transition.selectAll(".bar")
 					.delay(delay)
