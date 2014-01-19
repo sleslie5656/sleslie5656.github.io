@@ -56,6 +56,9 @@
 		.bar {
 		  fill: steelblue;
 		}
+		.maxBar {
+		  fill: red;
+		}
 		.x.axis path {
 		  display: none;
 		}
@@ -66,9 +69,8 @@
 		}
 		div.tooltip {   
 		  position: absolute;           
-		  text-align: center;           
-/*		  width: 150px;  */                
-		  height: 40px;                 
+		  text-align: center;                         
+		  height: 100px;                 
 		  padding: 2px;             
 		  font: 12px sans-serif;        
 		  background: black;   
@@ -121,25 +123,21 @@
 		</div>
       
       <p>This graph shows snowfall totals for the last 134 years.<br> Click to sort.</p>
-	  <label><input type="checkbox"> Sort values</label>
     </div>
     
     <!-- GRAPH -->
     <div class="container" id="content">
     <div id="spin" style="position:fixed; top:50%; left: 50%;"></div>
     
-    <!-- <button id="testButton"> test </button> -->
+	<!-- BUTTONS -->
 	<button id="sortByYear" class="btn btn-large btn-inverse" type="button">Sort by Year</button>
-	<button id="sortByDepth" class="btn btn-large" type="button">Sort by Depth</button>	
-	<label><input type="checkbox"> Sort values</label>
+	<button id="sortByDepth" class="btn btn-large" type="button">Sort by Season Total</button>	
+	<button id="sortByMax" class="btn btn-large" type="button">Sort by Maximum Depth</button>	
     </div>
     
     <div class="container">
 
 		<script>
-
-//		var div = document.getElementById('content');
-//		var spinner = new Spinner().spin(div);
 
 		var margin = {top: 20, right: 20, bottom: 30, left: 40},
 			height = 500 - margin.top - margin.bottom;
@@ -173,11 +171,18 @@
 			.attr("class", "tooltip")               
 			.style("opacity", 0)
 			.style("width", tooltipWidth + "px");
+			
+		var color = d3.scale.ordinal()
+		    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
 		d3.csv("SnowFall.csv", function(error, data) {
+			color.domain(d3.keys(data[0]).filter(function(key) { return key !== "WY"; }));
+			
 			data.forEach(function(d) {
 				d.Season = +d.Season;
-			});
+				var y0 = 0;
+				d.series = color.domain().map(function(name){ return{ name: name, year: d.WY, y0: y0, y1: y0 += +d[name] - y0}; });
+			});	
 
 			x.domain(data.map(function(d) { return d.WY; }));
 			y.domain([0, d3.max(data, function(d) { return d.Season; })]);
@@ -192,7 +197,7 @@
 					.attr("dy", "-.1em")
 					.attr("transform", function(d) {
 						return "rotate(-90)" 
-						});
+					});
 	
 			svg.append("g")
 			  .attr("class", "y axis")
@@ -203,39 +208,49 @@
 			  .attr("dy", ".71em")
 			  .style("text-anchor", "end")
 			  .text("Inches");
-	
-			var rectangles = svg.selectAll(".bar")
-			  .data(data)
-			.enter().append("rect");
+			  
+			var year = svg.selectAll(".year")
+				.data(data)
+				.enter().append("g")
+				.attr("class","g year")
+				.attr("transform", function(d){ return "translate(" + x(d.WY) + ",0)"; });
 			
-			rectangles
-			  .attr("class", "bar")
-			  .attr("x", function(d) { return x(d.WY); })
-			  .attr("y", function(d) { return height; })
-			  .attr("width", 5)
-			.transition().delay(function(d,i){ return i * 15 })
-			  .duration(5)
-			  .attr("y", function(d) { return y(d.Season); })
-			  .attr("height", function(d) { return height - y(d.Season); });
+			year.selectAll("rect")
+				.data(function(d){ return d.series; })
+				.enter().append("rect")
+				.attr("class", "bar")
+				.attr("width", x.rangeBand())
+				.attr("y", function(d){ return y(d.y1); })
+				.attr("height", function(d){ return y(d.y0) - y(d.y1); })
+				.style("fill", function(d){ return color(d.name); });
 			
-			rectangles
-			  .on("mouseover", function(d) {      
+			year
+			.on("mouseover", function(d) {      
     			tooltip.transition().duration(200).style("opacity", .75);
 				tooltip.html(
-						"Year: " + d.WY + 
-						"<br>Total Snowfall: " + Math.round(d.Season) + " inches" +
-						"<br>Max Depth: " + Math.round(d.Max) + " inches")
-      				.style("left", (parseInt(d3.select(this).attr("x")) + document.getElementById("content").offsetLeft - 75) + "px")     
-      				.style("top", (parseInt(d3.select(this).attr("y")) + 275) + "px");
+					"Year: " + d.WY + 
+					"<br>Total Snowfall: " + Math.round(d.Season) + " inches" +
+					"<br>Max Depth: " + Math.round(d.Max) + " inches")
+				.style("left", "200px")
+				.style("top", "200px");
+				console.log("MAX y0: " + d.series[0].y0 + " y1: " + d.series[0].y1);
+				console.log("TOTAL y0: " + d.series[1].y0 + " y1: " + d.series[1].y1);
   			  })                  
   			.on("mouseout", function(d) {       
-    			tooltip.transition().duration(500).style("opacity", 0);   
+    			tooltip.transition().duration(500).style("opacity", 0); 
   			});
+			
+			function stayInBounds(left){
+				if( left > ( width - ( ( tooltipWidth / 2 ) + margin.right ) ) )
+					left = width - ( ( tooltipWidth / 2 ) + margin.right );
+				
+				return left + "px";
+			}
 
 			//assign button events
-			d3.select('input').on('change', change);
 			d3.select('#sortByYear').on( 'click', sortByYear );
 			d3.select('#sortByDepth').on( 'click', sortByDepth );
+			d3.select('#sortByMax').on( 'click', sortByMax );
 			
 			function sortByYear(){
 				var buttonClass = d3.select('#sortByYear').attr('class');
@@ -254,9 +269,9 @@
 				var transition = svg.transition().duration(100),
 					delay = function(d, i) { return i * 25; };
 
-				transition.selectAll(".bar")
+				transition.selectAll(".year")
 					.delay(delay)
-					.attr("x", function(d) { return x0(d.WY); });
+					.attr("transform", function(d){ console.log(d);return "translate(" + x0(d.WY) + ",0)"; })
 
 				//move ticks
 				transition.select(".x.axis")
@@ -280,15 +295,15 @@
 				}
 				
 				//sort
-				var x0 = x.domain(data.sort( function(a, b) { return b.Season - a.Season; })
+				var x0 = x.domain(data.sort( function(a, b) { console.log(b);return d3.descending(a.Season, b.Season); })
 							.map(function(d) { return d.WY; }))
 							.copy();
 				var transition = svg.transition().duration(100),
 					delay = function(d, i) { return i * 25; };
 
-				transition.selectAll(".bar")
+				transition.selectAll(".year")
 					.delay(delay)
-					.attr("x", function(d) { return x0(d.WY); });
+					.attr("transform", function(d){ return "translate(" + x0(d.WY) + ",0)"; })
 
 				//move ticks
 				transition.select(".x.axis")
@@ -300,22 +315,27 @@
 				  .selectAll("g")
 					.delay(delay);
 			}
+			
+			function sortByMax(){
+				var buttonClass = d3.select('#sortByDepth').attr('class');
+				var selectedClass = 'btn btn-large btn-inverse';
 
-			function change() {
-
-				// Copy-on-write since tweens are evaluated after a delay.
-				var x0 = x.domain(data.sort(this.checked
-					? function(a, b) { return b.Season - a.Season; }
-					: function(a, b) { return d3.ascending(a.WY, b.WY); })
-					.map(function(d) { return d.WY; }))
-					.copy();
-
+				//toggle buttons			
+				if( buttonClass != selectedClass ){
+					d3.select('#sortByDepth').attr('class', selectedClass);
+					d3.select('#sortByYear').attr('class', 'btn btn-large');
+				}
+				
+				//sort
+				var x0 = x.domain(data.sort( function(a, b) { return b.Max - a.Max; })
+							.map(function(d) { return d.WY; }))
+							.copy();
 				var transition = svg.transition().duration(100),
 					delay = function(d, i) { return i * 25; };
 
-				transition.selectAll(".bar")
+				transition.selectAll(".year")
 					.delay(delay)
-					.attr("x", function(d) { return x0(d.WY); });
+					.attr("transform", function(d){ console.log(d);return "translate(" + x0(d.WY) + ",0)"; })
 
 				//move ticks
 				transition.select(".x.axis")
@@ -326,9 +346,8 @@
 						.attr("dy", "-.1em")
 				  .selectAll("g")
 					.delay(delay);
-			  }
-			});
-	
+			}
+		});
 		</script>
 
     </div>
