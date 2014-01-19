@@ -67,7 +67,7 @@
 		div.tooltip {   
 		  position: absolute;           
 		  text-align: center;           
-		  width: 100px;                  
+/*		  width: 150px;  */                
 		  height: 40px;                 
 		  padding: 2px;             
 		  font: 12px sans-serif;        
@@ -76,7 +76,7 @@
 		  border-radius: 8px;           
 		  pointer-events: none;
 		  z-index:1000; 
-		  color: white;        
+		  color: white;       
 		}
 	</style>
   </head>
@@ -167,12 +167,12 @@
 		  .append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+		var tooltipWidth = 150;
+
 		var tooltip = d3.select("body").append("div")   
 			.attr("class", "tooltip")               
-			.style("opacity", 0);
-
-//		var div = d3.select("svg");
-//		var test = new Spinner().spin(div);
+			.style("opacity", 0)
+			.style("width", tooltipWidth + "px");
 
 		d3.csv("SnowFall.csv", function(error, data) {
 			data.forEach(function(d) {
@@ -220,20 +220,19 @@
 			
 			rectangles
 			  .on("mouseover", function(d) {      
-    			tooltip.transition().duration(200).style("opacity", .9);
-				tooltip.html("Year: " + d.WY + "<br>Total Snowfall: " + d.Season + "inches")  
-//      			tooltip.html("test \n test")
-      				.style("left", (parseInt(d3.select(this).attr("x")) + document.getElementById("content").offsetLeft) + "px")     
-      				//.style("top", (parseInt(d3.select(this).attr("y")) + document.getElementById("content").offsetTop) + "px");
+    			tooltip.transition().duration(200).style("opacity", .75);
+				tooltip.html(
+						"Year: " + d.WY + 
+						"<br>Total Snowfall: " + Math.round(d.Season) + " inches" +
+						"<br>Max Depth: " + Math.round(d.Max) + " inches")
+      				.style("left", (parseInt(d3.select(this).attr("x")) + document.getElementById("content").offsetLeft - 75) + "px")     
       				.style("top", (parseInt(d3.select(this).attr("y")) + 275) + "px");
-      			//console.log(parseInt(d3.select(this).attr("x")));
-      			console.log("test");
-      			    
   			  })                  
   			.on("mouseout", function(d) {       
     			tooltip.transition().duration(500).style("opacity", 0);   
   			});
 
+			//assign button events
 			d3.select('input').on('change', change);
 			d3.select('#sortByYear').on( 'click', sortByYear );
 			d3.select('#sortByDepth').on( 'click', sortByDepth );
