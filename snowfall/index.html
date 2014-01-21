@@ -93,7 +93,7 @@
     </div>
 
     <div class="container">
-      <h1>Yearly Snowfall Data</h1>
+      <h1>Central Sierra Yearly Snowfall Data</h1>
       
       <!-- Modal -->
 		<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -112,7 +112,7 @@
 		  </div>
 		</div>
       <div class="description">
-	      <p>This graph shows snowfall totals for the last 135 years measured from Norden, California. Click About for more information.<br><br> Click buttons to sort and hover to view data.</p>
+	      <p>This graph shows snowfall totals for the last 135 years measured from Norden, California. Click <a href="#" onclick="$('#myModal').modal();">here</a> for more information.<br><br> Click buttons to sort and hover to view data.</p>
 	  </div>
     </div>
     
@@ -331,6 +331,17 @@
 					.delay(delay);	
 			}			
 		});
+		</script>
+		
+		<!-- Google Analytics -->
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', 'UA-47315664-1', 'scott-leslie.com');
+		  ga('send', 'pageview');
 		</script>
 
   <!--  </div> -->
