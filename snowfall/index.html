@@ -133,8 +133,11 @@
 
 		var margin = {top: 20, right: 20, bottom: 30, left: 40},
 			height = 500 - margin.top - margin.bottom;
-	
-		var width = 1260 - margin.left - margin.right;  
+
+		var width;
+		if( screen.width <= 1260 )
+			width = 1260 - margin.left - margin.right;
+		else width = screen.width - margin.left - margin.right;  
 		
 		var x = d3.scale.ordinal()
 			.rangeRoundBands([13, width + 20], .1);
