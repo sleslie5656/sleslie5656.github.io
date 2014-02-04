@@ -67,7 +67,12 @@
 		.description,
 		.modal-body {
 		  font-size: 14px;
-		}		
+		}
+		svg {
+			margin-left:auto; 
+			margin-right: auto;
+			display: block;
+		}
 	</style>
   </head>
 
@@ -135,9 +140,9 @@
 			height = 500 - margin.top - margin.bottom;
 
 		var width;
-		if( screen.width <= 1260 )
+		//if( screen.width <= 1260 )
 			width = 1260 - margin.left - margin.right;
-		else width = screen.width - margin.left - margin.right;  
+		//else width = screen.width - 100 - margin.left - margin.right;  
 		
 		var x = d3.scale.ordinal()
 			.rangeRoundBands([13, width + 20], .1);
@@ -170,7 +175,7 @@
 			.style("width", tooltipWidth + "px");
 			
 		var color = d3.scale.ordinal()
-		    .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+		    .range(["#98abc5", "#8a89a6"]);
 
 		d3.csv("SnowFall.csv", function(error, data) {
 			
