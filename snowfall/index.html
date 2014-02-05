@@ -32,6 +32,9 @@
 		  padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
 		  font: 10px sans-serif;
 		  /*background-image: url('assets/img/kindajean.png') !important;*/
+		 margin-left:auto;
+                  margin-right: auto;
+                  display: block;
 		}
 		.axis path,
 		.axis line {
@@ -135,8 +138,7 @@
 <!--    <div class="container"> -->
 
 		<script>
-
-		var margin = {top: 20, right: 20, bottom: 30, left: 40},
+		var margin = {top: 20, right: 0, bottom: 30, left: 20},
 			height = 500 - margin.top - margin.bottom;
 
 		var width;
@@ -145,7 +147,7 @@
 		//else width = screen.width - 100 - margin.left - margin.right;  
 		
 		var x = d3.scale.ordinal()
-			.rangeRoundBands([13, width + 20], .1);
+			.rangeRoundBands([0, width], .1);
 	
 		var y = d3.scale.linear()
 			.range([height, 0]);
@@ -164,7 +166,7 @@
 		var svg = d3.select("body").append("svg")
 			.attr("width", width + margin.left + margin.right)
 			.attr("height", height + margin.top + margin.bottom)
-		  .append("g")
+		  	.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 		var tooltipWidth = 150;
@@ -238,18 +240,19 @@
 					"Year: " + d.WY + 
 					"<br>Total Snowfall: " + Math.round(d.Season) + " inches" +
 					"<br>Max Depth: " + Math.round(d.Max) + " inches")
-				  .style("left", stayInBounds(x(d.WY)))
-				  .style("top", "400px");   
-  			  })                  
+				  .style("left", stayInBounds(d3.event.pageX)+ "px")
+				  //.style("top", "400px");
+				  .style("top", d3.event.pageY + "px");
+			})                  
   			.on("mouseout", function(d) {       
     			tooltip.transition().duration(500).style("opacity", 0); 
   			});
 			  			
 			function stayInBounds(left){
-				if( left > ( width - ( ( tooltipWidth / 2 ) + margin.right ) ) )
-					left = width - ( ( tooltipWidth / 2 ) + margin.right );
+				if( left > ( $(window).scrollLeft() + $(window).width() / 2 + 630 - ( tooltipWidth ) ) )
+					left = $(window).scrollLeft() + $(window).width() / 2 + 630 - ( tooltipWidth );
 				
-				return left + "px";
+				return left;
 			}
 			
 			//legend
@@ -353,24 +356,5 @@
 		</script>
 
   <!--  </div> -->
-
-    <!--javascript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <!--
-    <script src="assets/js/jquery.js"></script>
-    <script src="assets/js/bootstrap-transition.js"></script>
-    <script src="assets/js/bootstrap-alert.js"></script>
-    <script src="assets/js/bootstrap-modal.js"></script>
-    <script src="assets/js/bootstrap-dropdown.js"></script>
-    <script src="assets/js/bootstrap-scrollspy.js"></script>
-    <script src="assets/js/bootstrap-tab.js"></script>
-    <script src="assets/js/bootstrap-tooltip.js"></script>
-    <script src="assets/js/bootstrap-popover.js"></script>
-    <script src="assets/js/bootstrap-button.js"></script>
-    <script src="assets/js/bootstrap-collapse.js"></script>
-    <script src="assets/js/bootstrap-carousel.js"></script>
-    <script src="assets/js/bootstrap-typeahead.js"></script>
-	-->
   </body>
 </html>
