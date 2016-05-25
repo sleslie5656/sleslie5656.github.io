@@ -141,7 +141,7 @@
 <!--    <div class="container"> -->
 
 		<script>
-		var margin = {top: 20, right: 0, bottom: 30, left: 20},
+		var margin = {top: 30, right: 0, bottom: 30, left: 20},
 			height = 500 - margin.top - margin.bottom;
 
 		var width;
@@ -150,7 +150,7 @@
 		//else width = screen.width - 100 - margin.left - margin.right;  
 		
 		var x = d3.scale.ordinal()
-			.rangeRoundBands([0, width], .1);
+			.rangeRoundBands([-3, width], .1); //modify band range to tweak width of data in graph
 	
 		var y = d3.scale.linear()
 			.range([height, 0]);
@@ -214,8 +214,9 @@
 			  .call(yAxis)
 			.append("text")
 			  .attr("transform", "rotate(-90)")
-			  .attr("y", 5)
+			  .attr("y", -5)
 			  .attr("dy", ".71em")
+			  .attr("x", 30)
 			  .style("text-anchor", "end")
 			  .text("Inches");
 			
