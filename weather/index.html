@@ -28,48 +28,63 @@
 	  background-color: rgba(255,255,255, 0.5);
 	  color: inherit;
 	}
-	.btn-info { 
+	.btn-frame { 
+	  color: #ffffff; 
+	  background-color: #8052BD; 
+	  border-color: #130269; 
+	} 
+	.btn-jump {
+	  color: #ffffff;
+	  background-color: #4682b4;
+	  border-color: #130269;
+	}
+	 
+	 btn-jump:hover, 
+	btn-jump:focus, 
+	btn-jump:active, 
+	btn-jump.active, 
+	.open .dropdown-togglebtn-jump { 
 	  color: #ffffff; 
 	  background-color: #8052BD; 
 	  border-color: #130269; 
 	} 
 	 
-	.btn-info:hover, 
-	.btn-info:focus, 
-	.btn-info:active, 
-	.btn-info.active, 
-	.open .dropdown-toggle.btn-info { 
+	.btn-frame:hover, 
+	.btn-frame:focus, 
+	.btn-frame:active, 
+	.btn-frame.active, 
+	.open .dropdown-toggle.btn-frame { 
 	  color: #ffffff; 
 	  background-color: #49247A; 
 	  border-color: #130269; 
 	} 
 	 
-	.btn-info:active, 
-	.btn-info.active, 
-	.open .dropdown-toggle.btn-info { 
+	.btn-frame:active, 
+	.btn-frame.active, 
+	.open .dropdown-toggle.btn-frame { 
 	  background-image: none; 
 	} 
 	 
-	.btn-info.disabled, 
-	.btn-info[disabled], 
-	fieldset[disabled] .btn-info, 
-	.btn-info.disabled:hover, 
-	.btn-info[disabled]:hover, 
-	fieldset[disabled] .btn-info:hover, 
-	.btn-info.disabled:focus, 
-	.btn-info[disabled]:focus, 
-	fieldset[disabled] .btn-info:focus, 
-	.btn-info.disabled:active, 
-	.btn-info[disabled]:active, 
-	fieldset[disabled] .btn-info:active, 
-	.btn-info.disabled.active, 
-	.btn-info[disabled].active, 
-	fieldset[disabled] .btn-info.active { 
+	.btn-frame.disabled, 
+	.btn-frame[disabled], 
+	fieldset[disabled] .btn-frame, 
+	.btn-frame.disabled:hover, 
+	.btn-frame[disabled]:hover, 
+	fieldset[disabled] .btn-frame:hover, 
+	.btn-frame.disabled:focus, 
+	.btn-frame[disabled]:focus, 
+	fieldset[disabled] .btn-frame:focus, 
+	.btn-frame.disabled:active, 
+	.btn-frame[disabled]:active, 
+	fieldset[disabled] .btn-frame:active, 
+	.btn-frame.disabled.active, 
+	.btn-frame[disabled].active, 
+	fieldset[disabled] .btn-frame.active { 
 	  background-color: #8052BD; 
 	  border-color: #130269; 
 	} 
 	 
-	.btn-info .badge { 
+	.btn-frame .badge { 
 	  color: #8052BD; 
 	  background-color: #ffffff; 
 	}
@@ -81,7 +96,8 @@
 <div class="jumbotron trans">
       <div class="container">
         <h1>Tahoe Weather Links</h1>
-        <p>Below are some of the sites I use to look at weather. Click a button to open the site in a pane, and click again to close it.</p>
+        <p>This page is an experimental dashboard providing access to the resources I typically look at regarding weather. Sites that are iframe-friendly are shown as purple buttons and will open within the page for easy comparison with other sites. Sites that prevent themselves from being opened in iframes are represented as blue buttons and will open in a separate tab.</p> 
+		<p>I live in Reno and typically hit up Mt Rose Ski Area, so the sites are configured to be specific to that general area.</p>
       </div>
     </div>
 	
@@ -91,7 +107,7 @@
 		
 		<h1>Blogs</h1>
 		
-		<button type="button" class="btn btn-info btn-block btn-block" data-toggle="collapse" data-target="#OpenSnow" onclick="ToggleFrame('OpenSnowFrame','https://opensnow.com/dailysnow/tahoe')">
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#OpenSnow" onclick="ToggleFrame('OpenSnowFrame','https://opensnow.com/dailysnow/tahoe')">
 		Open Snow Tahoe Daily Snow</button>
 		<div id="OpenSnow" class="collapse">
 			<iframe id="OpenSnowFrame" src="about:blank" width="100%" height="600" frameborder="0"></iframe>
@@ -99,9 +115,17 @@
 		
 		<br>
 		
-		<h1>Forecasts / Current Observations</h1>
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#TWB" onclick="ToggleFrame('TWBFrame','http://www.tahoeweatherblog.com/')">
+		Tahoe Weather Blog</button>
+		<div id="TWB" class="collapse">
+			<iframe id="TWBFrame" src="about:blank" width="100%" height="600" frameborder="0"></iframe>
+		</div>
 		
-		<button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#Wunderground" onclick="ToggleFrame('wundergroundFrame','http://www.wunderground.com/weather-forecast/zmw:89511.1.99999')">
+		<br>
+		
+		<h1>Forecasts</h1>
+		
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#Wunderground" onclick="ToggleFrame('wundergroundFrame','http://www.wunderground.com/weather-forecast/zmw:89511.1.99999')">
 		Weather Underground
 		</button>
 		<div id="Wunderground" class="collapse">
@@ -110,7 +134,15 @@
 		
 		<br>
 		
-		<button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#PrecipLoop" onclick="ToggleFrame('gfsFrame','http://weather.rap.ucar.edu/model/displayMod.php?var=gfs_sfc_prcp&loop=loopall&hours')"> 
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#NWS" onclick="ToggleFrame('NWSFrame','http://forecast.weather.gov/MapClick.php?lat=39.3296&lon=-119.8871#.WlVSyTdG1hE')">
+		National Weather Service</button>
+		<div id="NWS" class="collapse">
+		<iframe id="NWSFrame" src="about:blank" width="100%" height="600" frameborder="0"></iframe>
+		</div>
+		
+		<br>
+		
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#PrecipLoop" onclick="ToggleFrame('gfsFrame','http://weather.rap.ucar.edu/model/displayMod.php?var=gfs_sfc_prcp&loop=loopall&hours')"> 
 		GFS Precip Predictive Model Loop
 		</button>
 		<div id="PrecipLoop" class="collapse">
@@ -119,16 +151,39 @@
 		
 		<br>
 		
-		<button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#IntelRadarLoop" onclick="ToggleFrame('IntelRadarLoopFrame','http://www.intellicast.com/Local/WxMap.aspx')"> 
+		<h1>Observations</h1>
+		
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#IntelRadarLoop" onclick="ToggleFrame('IntelRadarLoopFrame','http://www.intellicast.com/Local/WxMap.aspx')"> 
 		Intellicast Radar Loop
 		</button>
 		<div id="IntelRadarLoop" class="collapse">
 			<iframe id="IntelRadarLoopFrame" src="about:blank" width="100%" height="800" frameborder="0"></iframe>
 		</div>
+
+		<br>
+		
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#SNOTEL" onclick="ToggleFrame('SNOTELFrame','https://www.wcc.nrcs.usda.gov/webmap/#version=80.1&elements=W,R&networks=!&states=!&counties=!&hucs=&minElevation=&maxElevation=&elementSelectType=all&activeOnly=true&activeForecastPointsOnly=false&hucLabels=false&hucParameterLabels=false&stationLabels=&overlays=&hucOverlays=&mode=data&openSections=dataElement,parameter,date,basin,elements,location,networks&controlsOpen=true&popup=&popupMulti=&base=esriNgwm&displayType=station&basinType=6&dataElement=SNWDD&parameter=OBS&frequency=DAILY&duration=mtd&customDuration=&dayPart=E&year=2018&month=1&day=8&monthPart=E&forecastPubMonth=1&forecastPubDay=1&forecastExceedance=50&seqColor=1&divColor=3&scaleType=D&scaleMin=&scaleMax=&referencePeriodType=POR&referenceBegin=1981&referenceEnd=2010&minimumYears=20&hucAssociations=true&lat=39.1210&lon=-119.9391&zoom=10.0')"> 
+		SNOTEL Station Map
+		</button>
+		<div id="SNOTEL" class="collapse">
+			<iframe id="SNOTELFrame" src="about:blank" width="100%" height="800" frameborder="0"></iframe>
+		</div>
+
+		<br>
+		
+		<button type="button" class="btn btn-jump btn-block" onclick="window.open('http://www.wrh.noaa.gov/rev/remotedata/')"> 
+		Remote Data
+		</button>
 		
 		<br>
 		
-		<button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#CNRFC" onclick="ToggleFrame('CNRFCFrame','http://www.cnrfc.noaa.gov/google.php')"> 
+		<button type="button" class="btn btn-jump btn-block" onclick="window.open('https://www.sierraavalanchecenter.org/')"> 
+		Sierra Avalanche Center
+		</button>
+
+		<br>
+		
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#CNRFC" onclick="ToggleFrame('CNRFCFrame','http://www.cnrfc.noaa.gov/google.php')"> 
 		CNRFC - Interactive Map Interface - Precip Map
 		</button>
 		<div id="CNRFC" class="collapse">
@@ -137,9 +192,9 @@
 		
 		<br>
 		
-		<h1>Webcams</h1>
+		<h1>Webcams and Ski Resort Pages</h1>
 		
-		<button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#mtrose" onclick="ToggleFrame('mtroseFrame','http://skirose.com/the-mountain/web-cams/')"> 
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#mtrose" onclick="ToggleFrame('mtroseFrame','http://skirose.com/the-mountain/web-cams/')"> 
 		Mt Rose Ski Area
 		</button>
 		<div id="mtrose" class="collapse">
@@ -148,7 +203,22 @@
 		
 		<br>
 		
-		<button type="button" class="btn btn-info btn-block" data-toggle="collapse" data-target="#caltrans" onclick="ToggleFrame('caltransFrame','http://www.dot.ca.gov/dist3/departments/traffic/cameras/')"> 
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#sugarbowl" onclick="ToggleFrame('sugarbowlFrame','http://www.sugarbowl.com/webcams')"> 
+		Sugar Bowl
+		</button>
+		<div id="sugarbowl" class="collapse">
+			<iframe id="sugarbowlFrame" src="about:blank" width="100%" height="800" frameborder="0"></iframe>
+		</div>
+		
+		<br>
+		
+		<button type="button" class="btn btn-jump btn-block" onclick="window.open('https://www.kirkwood.com/the-mountain/mountain-conditions/mountain-cams.aspx')"> 
+		Kirkwood
+		</button>
+		
+		<br>
+		
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#caltrans" onclick="ToggleFrame('caltransFrame','http://www.dot.ca.gov/dist3/departments/traffic/cameras/')"> 
 		Cal Trans Traffic Cameras
 		</button>
 		<div id="caltrans" class="collapse">
@@ -159,21 +229,6 @@
 		
 		</div>
 		
-		<div class="container trans">
-		Other Links
-		<p>
-		<a href="https://www.facebook.com/NWSSacramento/">US National Weather Service Sacramento California Facebook</a>
-		</p>
-		<p>
-		<a href="https://www.facebook.com/NWSReno/">US National Weather Service Reno Nevada Facebook</a>
-		</p>
-		<p>
-		<a href="http://data.cocorahs.org/cocorahs/maps/?country=usa&state=ca">Community Cooperative Rain Hail and Snow network</a>
-		</p>
-		<p>
-		<a href="http://squall.sfsu.edu/gif/jetstream_pac_loop.gif">Pacific Jetstream Loop</a>
-		</p>
-		</div>
 	</div>
 	
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
