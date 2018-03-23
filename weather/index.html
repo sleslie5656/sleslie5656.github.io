@@ -112,7 +112,7 @@
 				
 		<div class="container trans">
 		
-		<h1>Blogs</h1>
+		<h1>Blogs / Social Media</h1>
 		
 		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#OpenSnow" onclick="ToggleFrame('OpenSnowFrame','https://opensnow.com/dailysnow/tahoe')">
 		Open Snow Tahoe Daily Snow</button>
@@ -130,6 +130,14 @@
 		
 		<br>
 		
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#NWS_Social" onclick="ToggleFrame('NWS_SocialFrame','https://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2FNWSReno&width=600&height=640&show_faces=false&colorscheme=light&stream=true&border_color&header=true')">
+		NWS Social Media</button>
+		<div id="NWS_Social" class="collapse">
+			<iframe id="NWS_SocialFrame" src="about:blank" width="100%" height="600" frameborder="0"></iframe>
+		</div>
+
+		<br>
+
 		<h1>Forecasts</h1>
 		
 		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#Wunderground" onclick="ToggleFrame('wundergroundFrame','http://www.wunderground.com/weather-forecast/zmw:89511.1.99999')">
@@ -178,8 +186,8 @@
 
 		<br>
 		
-		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#SNOTEL" onclick="ToggleFrame('SNOTELFrame','https://www.wcc.nrcs.usda.gov/webmap/#version=80.1&elements=W,R&networks=!&states=!&counties=!&hucs=&minElevation=&maxElevation=&elementSelectType=all&activeOnly=true&activeForecastPointsOnly=false&hucLabels=false&hucParameterLabels=false&stationLabels=&overlays=&hucOverlays=&mode=data&openSections=dataElement,parameter,date,basin,elements,location,networks&controlsOpen=true&popup=&popupMulti=&base=esriNgwm&displayType=station&basinType=6&dataElement=SNWDD&parameter=OBS&frequency=DAILY&duration=mtd&customDuration=&dayPart=E&year=2018&month=1&day=8&monthPart=E&forecastPubMonth=1&forecastPubDay=1&forecastExceedance=50&seqColor=1&divColor=3&scaleType=D&scaleMin=&scaleMax=&referencePeriodType=POR&referenceBegin=1981&referenceEnd=2010&minimumYears=20&hucAssociations=true&lat=39.1210&lon=-119.9391&zoom=10.0')"> 
-		SNOTEL Station Map
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#SNOTEL" onclick="ToggleFrame('SNOTELFrame','https://www.wcc.nrcs.usda.gov/snow/snow_map.html')"> 
+		SNOTEL Interactive Map
 		</button>
 		<div id="SNOTEL" class="collapse">
 			<iframe id="SNOTELFrame" src="about:blank" width="100%" height="800" frameborder="0"></iframe>
@@ -208,10 +216,33 @@
 		
 		<br>
 		
-		<h1>Webcams and Ski Resort Pages</h1>
+		<h1>Webcams / Roads</h1>
+		<button type="button" class="btn btn-jump btn-block" onclick="window.open('http://www.nvroads.com/')"> 
+		NVroads.com (511)
+		</button>	
+		
+		<br>
+
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#rwis" onclick="ToggleFrame('rwisFrame','https://rwis.its.nv.gov/RWIS/MapView')"> 
+		NDOT Roadway Weather Information System (RWIS)
+		</button>
+		<div id="rwis" class="collapse">
+			<iframe id="rwisFrame" src="about:blank" width="100%" height="800" frameborder="0"></iframe>
+		</div>
+
+		<br>
+
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#caltrans" onclick="ToggleFrame('caltransFrame','http://www.dot.ca.gov/dist3/departments/traffic/cameras/')"> 
+		Cal Trans
+		</button>
+		<div id="caltrans" class="collapse">
+			<iframe id="caltransFrame" src="about:blank" width="100%" height="800" frameborder="0"></iframe>
+		</div>
+
+		<h1>Ski Resort Pages</h1>
 		
 		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#mtrose" onclick="ToggleFrame('mtroseFrame','http://skirose.com/the-mountain/web-cams/')"> 
-		Mt Rose Ski Area
+		Mt Rose
 		</button>
 		<div id="mtrose" class="collapse">
 			<iframe id="mtroseFrame" src="about:blank" width="100%" height="800" frameborder="0"></iframe>
@@ -227,22 +258,43 @@
 		</div>
 		
 		<br>
+
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#diamondpeak" onclick="ToggleFrame('diamondpeakFrame','https://www.diamondpeak.com/mountain/mountain-cam')"> 
+		Diamond Peak
+		</button>
+		<div id="diamondpeak" class="collapse">
+			<iframe id="diamondpeakFrame" src="about:blank" width="100%" height="800" frameborder="0"></iframe>
+		</div>
+
+		<br>
 		
 		<button type="button" class="btn btn-jump btn-block" onclick="window.open('https://www.kirkwood.com/the-mountain/mountain-conditions/mountain-cams.aspx')"> 
 		Kirkwood
 		</button>
-		
+
 		<br>
-		
-		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#caltrans" onclick="ToggleFrame('caltransFrame','http://www.dot.ca.gov/dist3/departments/traffic/cameras/')"> 
-		Cal Trans Traffic Cameras
+
+		<button type="button" class="btn btn-jump btn-block" onclick="window.open('http://squawalpine.com/')"> 
+		Squaw Valley | Alpine Meadows
 		</button>
-		<div id="caltrans" class="collapse">
-			<iframe id="caltransFrame" src="about:blank" width="100%" height="800" frameborder="0"></iframe>
-		</div>
 		
 		<br>
-		
+
+		<button type="button" class="btn btn-jump btn-block" onclick="window.open('https://www.skiheavenly.com/the-mountain/mountain-conditions/mountain-cams.aspx')"> 
+		Heavenly
+		</button>
+
+		<br>
+			
+		<button type="button" class="btn btn-frame btn-block" data-toggle="collapse" data-target="#homewood" onclick="ToggleFrame('homewoodFrame','http://www.skihomewood.com/mountain/homewood-webcam/')"> 
+		Homewood
+		</button>
+		<div id="homewood" class="collapse">
+			<iframe id="homewoodFrame" src="about:blank" width="100%" height="800" frameborder="0"></iframe>
+		</div>
+
+		<br>
+
 		</div>
 		
 	</div>
